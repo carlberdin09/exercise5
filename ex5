@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group 6 - Team Members</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #000, #d4af37); 
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            color: #d4af37; 
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 2; 
+        }
+
+        .team-member {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 30px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 200px;
+            height: 200px;
+            border-radius: 60%;
+            object-fit: cover;
+        }
+
+        .info {
+            margin-top: 15px;
+        }
+
+        .more {
+            display: none;
+        }
+
+        input[type='checkbox']:checked~.more {
+            display: block;
+        }
+
+        form {
+            margin: 10px 0;
+        }
+
+        input[type='text'],
+        input[type='email'] {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        footer {
+            margin-top: 20px;
+        }
+
+        .contact-form {
+            margin: 50px 0;
+            position: relative;
+            z-index: 2; 
+            color: #d4af37; 
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>KENGKOY</h1>
+    </header>
+
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+        <input type="text" name="search" placeholder="Search by name (GET)">
+        <button type="submit">Search</button>
+    </form>
+
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <input type="text" name="search" placeholder="Search by name (POST)" />
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="contact-form">
+        <h2>Contact Us</h2>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <?php
+        $team = [
+            ["name" => "KENGKOY Dionisio, Marc", "position" => "Team Leader", "photo" => "marc.jpg", "description" => "Marc mabait.", "age" => "20", "birthday" => "September 18, 2004", "contact" => "09398866319", "address" => "279 San Pancrasio St. San Antonio V1 Paranaque City", "github" => "https://github.com/Marcdionisio/Marc-Dionisio"],
+            ["name" => "KENGKOY Berdin, Carl", "position" => "Member", "photo" => "carl.jpg", "description" => "Carl cutie.", "age" => "20", "birthday" => "January 21, 2004", "contact" => "09637112135", "address" => "Blk 87 Lot 13, Taguig City", "github" => "https://github.com/carlberdin09"],
+            ["name" => "KENGKOY Pili, Ricky", "position" => "Member", "photo" => "ricky.jpg", "description" => "Ricky mabait", "age" => "23", "birthday" => "May 02, 2001", "contact" => "09511866497", "address" => "257 Purok 4 Alabang Muntinlupa City", "github" => "https://github.com/RickyPili02"],
+            ["name" => "KENGKOY Haloc, Marco", "position" => "Member", "photo" => "marco.jpg", "description" => "Marco mabait", "age" => "20", "birthday" => "September 16, 2004", "contact" => "09947367052", "address" => "Sitio Daanghari Poblacion Muntinlupa City", "github" => "https://github.com/Marco1316/Haloc-Marco"],
+            ["name" => "KENGKOY Malinao, Mary Feb", "position" => "Member", "photo" => "feb.jpg", "description" => "Malinao Pangit", "age" => "22", "birthday" => "February 16, 2002", "contact" => "09278224711", "address" => "Southfairway Landayan Spl, Laguna", "github" => "https://github.com/MaryfebMalinao"],
+        ];
+        
+        $searchTerm = isset($_POST['search']) ? $_POST['search'] : (isset($_GET['search']) ? $_GET['search'] : '');
+
+        foreach ($team as $member) {
+            if (stripos($member['name'], $searchTerm) !== false) {
+                echo "
+                <div class='team-member'>
+                    <img src='{$member['photo']}' alt='{$member['name']}' />
+                    <div class='info'>
+                        <h2>{$member['name']}</h2>
+                        <p>Position: {$member['position']}</p>
+                        <p>{$member['description']}</p>
+                        <input type='checkbox' id='read-more-{$member['name']}' />
+                        <label for='read-more-{$member['name']}'>Read More</label>
+                        <div class='more'>
+                            <p><strong>Age:</strong> {$member['age']} <br>
+                            <strong>Birthday:</strong> {$member['birthday']} <br>
+                            <strong>Contact Number:</strong> {$member['contact']} <br>
+                            <strong>Address:</strong> {$member['address']}</p>
+                        </div>
+                        <p><a href='{$member['github']}' target='_blank'>View {$member['name']}’s Github Profile</a></p>
+                    </div>
+                </div>
+                ";
+            }
+        }
+        ?>
+    </div>
+
+</body>
+</html>
